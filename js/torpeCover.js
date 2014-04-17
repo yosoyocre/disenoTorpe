@@ -19,9 +19,8 @@ $(function () {
         $backTitle = $('#backTitle'),
         $front = $('<img />'),
         $back = $('<img />'),
-        $downloadFront = $('#downloadFront'),
-        $downloadBack = $('#downloadBack'),
         linkColor,
+        shadowColor,
         $favicon = $('<link />'),
         palette,
         title;
@@ -41,7 +40,7 @@ $(function () {
         torpeFront.drawImage($title.get(0), 0, 0);
 
         $front.attr('src', torpeFront.getImageDataURI());
-        $downloadFront.attr('href', torpeFront.getImageDataURI());
+        $('#downloadFront').attr('href', torpeFront.getImageDataURI());
     };
     palette = torpeFront.getPalette();
     title = "Esta es tu portada de 'Torpe'";
@@ -57,7 +56,7 @@ $(function () {
         torpeBack.writeText(formatDate(new Date()), 19 * 70, 19 * 70);
 
         $back.attr('src', torpeBack.getImageDataURI());
-        $downloadBack.attr('href', torpeBack.getImageDataURI());
+        $('#downloadBack').attr('href', torpeBack.getImageDataURI());
     };
     title = "Esta es tu contraportada de 'Torpe'";
     $back
@@ -67,9 +66,19 @@ $(function () {
     torpeIcon.options.palette = palette;
     torpeIcon.draw();
 
-    linkColor = palette.pop();
-    $downloadFront.css('color', linkColor);
-    $downloadBack.css('color', linkColor);
+    linkColor = palette[3];
+    shadowColor = palette[4];
+
+    $('.link').css({
+        'color': linkColor,
+    });
+    $('.button').css({
+        'background': linkColor,
+        'box-shadow': '0px 1px 0px 0px ' + shadowColor
+    });
+    $('.page-title').css({
+        'color': linkColor,
+    });
 
     $('#front').append($front);
     $('#back').append($back);
