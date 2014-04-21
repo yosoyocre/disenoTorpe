@@ -22,6 +22,7 @@ a {
 #container {
     width: 500px;
     margin: 50px auto 0 auto;
+    padding-bottom: 60px;
 }
 
 .page-title {
@@ -63,12 +64,32 @@ a {
     display: none;
 }
 
+.social {
+    margin-bottom: 20px;
+}
+
+.social ul {
+    margin: 0 auto;
+    width: 400px;
+}
+
+.social li {
+    list-style-type: none;
+    float: left;
+    width: 120px;
+}
+
 @media print {
     #container {
         margin: 55px auto 0 auto;
     }
 
+    #container > * {
+        display:none;
+    }
+
     .cover {
+        display: block !important;
         position: relative;
         top: 0;
         left: 0;
@@ -81,9 +102,5 @@ a {
     .cover > img {
         width: 444px;
         height: 444px;
-    }
-
-    #container > a {
-        display: none;
     }
 }
