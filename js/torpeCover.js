@@ -1,4 +1,4 @@
-/*global $:false, Torpe:false */
+/*global $, Torpe, ga */
 
 $(function () {
     'use strict';
@@ -23,7 +23,14 @@ $(function () {
         shadowColor,
         $favicon = $('<link />'),
         palette,
-        title;
+        title,
+        _GA = {};
+
+    _GA.sendEvent = function (category, action, label, value) {
+        if (typeof ga !== 'undefined') {
+            ga('send', 'event', category, action, label, value);
+        }
+    };
 
     function formatDate(date) {
         function pad(n) { return n < 10 ? '0' + n : n; }
@@ -40,7 +47,11 @@ $(function () {
         torpeFront.drawImage($title.get(0), 0, 0);
 
         $front.attr('src', torpeFront.getImageDataURI());
-        $('#downloadFront').attr('href', torpeFront.getImageDataURI());
+        $('#downloadFront')
+            .attr('href', torpeFront.getImageDataURI())
+            .click(function() {
+                _GA.sendEvent('design', 'download', 'front');
+            });
     };
     palette = torpeFront.getPalette();
     title = "Esta es tu portada de 'Torpe'";
@@ -56,7 +67,11 @@ $(function () {
         torpeBack.writeText(formatDate(new Date()), 19 * 70, 19 * 70);
 
         $back.attr('src', torpeBack.getImageDataURI());
-        $('#downloadBack').attr('href', torpeBack.getImageDataURI());
+        $('#downloadBack')
+            .attr('href', torpeBack.getImageDataURI())
+            .click(function() {
+                _GA.sendEvent('design', 'download', 'back');
+            });
     };
     title = "Esta es tu contraportada de 'Torpe'";
     $back
@@ -87,4 +102,8 @@ $(function () {
         .attr('rel', 'shortcut icon')
         .attr('href', torpeIcon.getImageDataURI());
     $('head').append($favicon);
+
+    $('.js-trackLink').click(function () {
+        _GA.sendEvent('link', 'follow', $(this).attr('href'));
+    });
 });
